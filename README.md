@@ -34,6 +34,20 @@ print('Username     : ' + response['results']['member_info']['name']['last_name'
 print('Token        : ' + response['results']['member_info']['access_token'])
 ```
 
+You can also fill in the token yourself
+```py
+from McDaily import McDailyAccount
+
+
+account = McDailyAccount()
+account.set_token('Your token')
+
+# Lottery
+print(account.lottery_get_item())
+
+# Get coupon list
+print(account.lottery_get_item())
+```
 
 ## Contributing
 
