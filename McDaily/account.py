@@ -14,6 +14,7 @@ class McDailyAccount:
         self.password     = ''                                                     # Password
         self.access_token = ''                                                     # Token
         self.param_string = ''                                                     # username + password
+        self.card_no      = ''                                                     # Card no
 
         """ System info """
         self.str1         = datetime.strftime(datetime.now(), '%Y/%m/%d %H:%M:%S') # Device Time
@@ -79,6 +80,30 @@ class McDailyAccount:
     def set_token(self, access_token):
         self.access_token         = access_token
         self.json['access_token'] = access_token
+
+    def get_card_query(self, card_no):
+        self.card_no = card_no
+
+        """ Mask = md5('Mc' + order_no + access_token + card_no + callTime + 'Donalds') """
+        data = 'Mc%s%s%s%sDonalds' % (
+            self.order_no,
+            self.access_token,
+            self.card_no,
+            self.str3,
+        )
+        hash = hashlib.md5()
+        hash.update(data.encode('utf-8'))
+
+        json = {
+            "OrderNo"      : self.order_no,
+            "access_token" : self.access_token,
+            "callTime"     : self.str3,
+            "cardNo"       : self.card_no,
+            "mask"         : mask.hexdigest(),
+        }
+
+        respones = requests.post('https://api.mcddaily.com.tw/queryBonus', json = json)
+        return respones
 
     def lottery_get_item(self):
         respones = requests.post('https://api1.mcddailyapp.com/lottery/get_item', json = self.json)
