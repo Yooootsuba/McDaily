@@ -10,7 +10,7 @@ class McDailyCoupon:
         self.current_datetime    = datetime.now()
         self.status              = json['status']
 
-        if self.redeem_end_datetime - self.current_datetime > timedelta():
+        if self.status != 2 and self.redeem_end_datetime - self.current_datetime < timedelta():
             self.status          = 3
 
         # Coupon status
@@ -19,6 +19,9 @@ class McDailyCoupon:
         # 3 == expired
 
         self.beautify()
+
+    def __repr__(self):
+        return self.title + ' ' + str(self.status)
 
     def beautify(self):
         self.title = re.sub(r'鷄', '雞', self.title)
