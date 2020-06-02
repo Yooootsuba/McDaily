@@ -14,6 +14,25 @@ $ python setup.py install
 
 ## Example
 
+Obtains the login token
+```py
+from McDaily import McDailyAccount
+
+
+# Input
+username = input('Username : ')
+password = input('Password : ')
+
+# Login
+account = McDailyAccount()
+response = account.login(username, password)
+
+# Print the results
+print('')
+print('Login status : ' + response['rm'])
+print('Username     : ' + response['results']['member_info']['name']['last_name'] + response['results']['member_info']['name']['first_name'])
+print('Token        : ' + response['results']['member_info']['access_token'])
+```
 
 
 ## Contributing
