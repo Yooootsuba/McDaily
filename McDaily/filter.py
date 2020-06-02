@@ -24,6 +24,8 @@ class McDailyFilter:
         coupon_list = []
         for json in self.json['results']['coupons']:
             coupon_list.append(McDailyCoupon(json))
+            if coupon_list[-1].status != 1:
+                coupon_list.pop()
         return coupon_list
 
     def sticker(self):

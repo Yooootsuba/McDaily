@@ -3,6 +3,9 @@ import requests
 from datetime import datetime, timedelta
 
 
+from .filter import McDailyFilter
+
+
 class McDailyAccount:
 
     def __init__(self):
@@ -34,7 +37,6 @@ class McDailyAccount:
                 "platform"    : self.platform,
             }
         }
-
 
     def login(self, username, password):
         self.username     = username
@@ -80,4 +82,26 @@ class McDailyAccount:
 
     def lottery_get_item(self):
         respones = requests.post('https://api1.mcddailyapp.com/lottery/get_item', json = self.json)
-        return respones
+        return McDailyFilter(respones.json()).get_object()
+
+    def coupon_get_list(self):
+        respones = requests.post('https://api1.mcddailyapp.com/coupon/get_list', json = self.json)
+        return McDailyFilter(respones.json()).get_object()
+
+    def sticker_get_list(self):
+        respones = requests.post('https://api1.mcddailyapp.com/sticker/get_list', json = self.json)
+        return McDailyFilter(respones.json()).get_object()
+
+    def sticker_redeem(self):
+        sticker_list = self.sticker_get_list()
+        if len(sticker_list) < 6:
+            return 'Just %d stickers' % len(sticker_list)
+
+        sticker_id_list = []
+        for i in range(6):
+            sticker_id_list.append(sticker_list[i].sticker_id)
+
+        json = self.json
+        json['sticker_ids'] = sticker_id_list
+        respones = requests.post('https://api1.mcddailyapp.com/sticker/redeem', json = json)
+        return McDailyFilter(respones.json()).get_object()

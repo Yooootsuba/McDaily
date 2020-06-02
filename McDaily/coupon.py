@@ -21,7 +21,7 @@ class McDailyCoupon:
         self.beautify()
 
     def __repr__(self):
-        return self.title + ' ' + str(self.status)
+        return self.title
 
     def beautify(self):
         self.title = re.sub(r'鷄', '雞', self.title)
