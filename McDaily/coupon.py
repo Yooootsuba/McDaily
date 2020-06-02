@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 class McDailyCoupon:
 
     def __init__(self, json):
-        self.title               = json['coupon']['object_info']['title']
-        self.redeem_end_datetime = datetime.strptime(json['coupon']['object_info']['redeem_end_datetime'], '%Y/%m/%d %H:%M:%S')
+        self.title               = json['object_info']['title']
+        self.redeem_end_datetime = datetime.strptime(json['object_info']['redeem_end_datetime'], '%Y/%m/%d %H:%M:%S')
         self.current_datetime    = datetime.now()
-        self.status              = json['coupon']['status']
+        self.status              = json['status']
 
         if self.redeem_end_datetime - self.current_datetime > timedelta():
             self.status          = 3

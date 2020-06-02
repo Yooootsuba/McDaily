@@ -34,4 +34,4 @@ json = {
 }
 
 
-coupon = McDailyCoupon(json['results'])
+coupon = McDailyCoupon(json['results']['coupon'])
