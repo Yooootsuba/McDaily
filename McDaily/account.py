@@ -16,11 +16,25 @@ class McDailyAccount:
         self.str1         = datetime.strftime(datetime.now(), '%Y/%m/%d %H:%M:%S') # Device Time
         self.str2         = '2.2.0'                                                # App Version
         self.str3         = datetime.strftime(datetime.now(), '%Y%m%d%H%M%S')      # Call time
-        self.model_id     = 'MIX 3'                                                # Model ID
+        self.model_id     = 'Pixel XL'                                             # Model ID
         self.os_version   = '9'                                                    # Android OS Version
         self.platform     = 'Android'                                              # platform
         self.device_uuid  = 'device_uuid'                                          # Device Uuid
         self.order_no     = self.device_uuid + self.str3                           # Order No
+
+        """ Request json data """
+        self.json = {
+            "access_token" : self.access_token,
+            "source_info"  : {
+                "app_version" : self.str2,
+                "device_time" : self.str1,
+                "device_uuid" : self.device_uuid,
+                "model_id"    : self.model_id,
+                "os_version"  : self.os_version,
+                "platform"    : self.platform,
+            }
+        }
+
 
     def login(self, username, password):
         self.username     = username
@@ -61,4 +75,9 @@ class McDailyAccount:
         return response
 
     def set_token(self, access_token):
-        self.access_token = access_token
+        self.access_token         = access_token
+        self.json['access_token'] = access_token
+
+    def lottery_get_item(self):
+        respones = requests.post('https://api1.mcddailyapp.com/lottery/get_item', json = self.json)
+        return respones
