@@ -73,7 +73,7 @@ class McDailyAccount:
             }
         }
 
-        response = requests.post('https://api.mcddaily.com.tw/login_by_mobile', json = json)
+        response = requests.post('https://api.mcddaily.com.tw/login_by_mobile', json = json, headers = {'user-agent' : 'okhttp/3.10.0'})
         self.set_token(response.json()['results']['member_info']['access_token'])
         return response
 
@@ -102,19 +102,19 @@ class McDailyAccount:
             "mask"         : mask.hexdigest(),
         }
 
-        respones = requests.post('https://api.mcddaily.com.tw/queryBonus', json = json)
+        respones = requests.post('https://api.mcddaily.com.tw/queryBonus', json = json, headers = {'user-agent' : 'okhttp/3.10.0'})
         return respones
 
     def lottery_get_item(self):
-        respones = requests.post('https://api1.mcddailyapp.com/lottery/get_item', json = self.json)
+        respones = requests.post('https://api1.mcddailyapp.com/lottery/get_item', json = self.json, headers = {'user-agent' : 'okhttp/3.10.0'})
         return McDailyFilter(respones.json()).get_object()
 
     def coupon_get_list(self):
-        respones = requests.post('https://api1.mcddailyapp.com/coupon/get_list', json = self.json)
+        respones = requests.post('https://api1.mcddailyapp.com/coupon/get_list', json = self.json, headers = {'user-agent' : 'okhttp/3.10.0'})
         return McDailyFilter(respones.json()).get_object()
 
     def sticker_get_list(self):
-        respones = requests.post('https://api1.mcddailyapp.com/sticker/get_list', json = self.json)
+        respones = requests.post('https://api1.mcddailyapp.com/sticker/get_list', json = self.json, headers = {'user-agent' : 'okhttp/3.10.0'})
         return McDailyFilter(respones.json()).get_object()
 
     def sticker_redeem(self):
@@ -128,5 +128,5 @@ class McDailyAccount:
 
         json = self.json
         json['sticker_ids'] = sticker_id_list
-        respones = requests.post('https://api1.mcddailyapp.com/sticker/redeem', json = json)
+        respones = requests.post('https://api1.mcddailyapp.com/sticker/redeem', json = json, headers = {'user-agent' : 'okhttp/3.10.0'})
         return McDailyFilter(respones.json()).get_object()
